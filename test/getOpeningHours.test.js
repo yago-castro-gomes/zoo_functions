@@ -28,9 +28,16 @@ describe('Testes da função getOpeningHours', () => {
     const wednesdayAt9 = getOpeningHours('Wednesday', '09:00-PM');
     expect(wednesdayAt9).toBe(strClosed);
   });
-//   it('Para os argumentos Thu e 09:00-AM deve lançar uma exceção com a mensagem: The day must be valid. Example: Monday', () => {
-//     const thuAt9 = getOpeningHours('Thu', '09:00-AM');
-//     const strErro = 'The day must be valid. Example: Monday';
-//     expect(thuAt9).toThrowError('Thu');
-//   });
+  it('Para os argumentos Thu e 09:00-AM deve lançar uma exceção com a mensagem: The day must be valid. Example: Monday', () => {
+    const thuAt9 = getOpeningHours('Thu', '09:00-AM');
+    expect(thuAt9).toThrowError(new Error('The day must be valid. Example: Monday'));
+  });
+  it('Para os argumentos Friday e 09:00-ZM', () => {
+    expect(() => {
+      getOpeningHours('Friday', '09:00-ZM');
+    }).toThrowError(new Error('The abbreviation must be \'AM\' or \'PM\''));
+  });
+  it('Para os argumentos Saturday e C9:00-AM deve lançar uma exceção com a mensagem: The hour should represent a number', () => {
+    expect(getOpeningHours('Saturday', 'C9:00-AM').toThrowError(new Error('The hour should represent a number')));
+  });
 });
